@@ -1,9 +1,12 @@
 # ntburgers
 
 Trabajo Especial primera entrega.
+
 Integrantes:
+
 •	Lucas Piscicelli.
 •	Ignacio Torres.
+
 Descripción
 Estas tablas son para un sistema de pedidos de una hamburguesería, donde esta la tabla cliente y la tabla pedido, donde un cliente puede hacer varios pedidos. En la tabla cliente enumeramos los siguentes atributos : su id_cliente (Primary Key), nombre, telefono, direccion, y el Id de pedidos (clave forania) . La tabla Pedidos contiene id_pedidos(Primary Key), fecha y total.
 
