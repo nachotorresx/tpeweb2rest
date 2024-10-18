@@ -11,5 +11,8 @@ pass: `admin`
 Integrantes:
 
 •	Lucas Piscicelli.
+
 •	Ignacio Torres.
+
+![Diagrama DB](https://github.com/nachotorresx/tpeweb2/blob/main/diagrama.png?raw=true)
 
