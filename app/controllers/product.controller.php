@@ -72,12 +72,10 @@ class ProductController {
     }
 
     public function deleteProduct($id) {
-        // obtengo la tarea por id
         $product = $this->model->getProduct($id);
         if (!$product) {
             return $this->view->showError("No existe el producto con el id=$id");
         }
-        // borro la tarea y redirijo
         $this->model->eraseProduct($id);
         header('Location: ' . BASE_URL);
     }
