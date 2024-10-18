@@ -14,5 +14,5 @@ Integrantes:
 
 •	Ignacio Torres.
 
-![Diagrama DB](https://github.com/nachotorresx/tpeweb2/blob/main/diagrama.png?raw=true)
+![Diagrama DB](https://github.com/nachotorresx/tpeweb2/blob/main/DiagramaDB.PNG?raw=true)
 
