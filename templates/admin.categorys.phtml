@@ -1,0 +1,114 @@
+<section class="admin-section">
+
+    <h2>Administrar Categorías</h2>
+    <button class="add-item-button open-add-category-modal">Agregar Categoría</button>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Url Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach($categorys as $category) { ?>
+            <tr>
+                <td><?= htmlspecialchars($category->nombre) ?></td>
+                <td><?= htmlspecialchars($category->descripcion) ?></td>
+                <td><?= htmlspecialchars($category->URL_imagen) ?></td>
+                <td>
+                    <button class="add-item-button open-edit-category-modal" 
+                            data-id="<?= htmlspecialchars($category->id_categoria) ?>" 
+                            data-nombre="<?= htmlspecialchars($category->nombre) ?>" 
+                            data-descripcion="<?= htmlspecialchars($category->descripcion) ?>" 
+                            data-imagen="<?= htmlspecialchars($category->URL_imagen) ?>">Editar</button>
+                    <button class="add-item-button"><a href="eliminar_categoria/<?= $category->id_categoria ?>" class="add-item-button">Borrar</a></button>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</section>
+
+    <div id="agregarCategoriaModal" class="modal">
+        <div class="modal-content">
+            <h2>Agregar Ítem</h2>
+            <form action="nueva_categoria" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <br>
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+                <br>
+                <label for="URL_imagen">URL Imagen:</label>
+                <input type="text" id="URL_imagen" name="URL_imagen" required>
+                <br>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<div id="editarCategoriaModal" class="modal">
+    <div class="modal-content">
+        <h2>Editar Ítem</h2>
+        <form method="POST" action="" id="editarFormularioCategoria">
+            <input type="hidden" id="editar_id_categoria" name="id_categoria">
+            <br>
+            <label for="editar_nombre">Nombre:</label>
+            <input type="text" id="editar_nombre_categoria" name="nombre" required>
+            <br>
+            <label for="editar_descripcion">Descripción:</label>
+            <input type="text" id="editar_descripcion_categoria" name="descripcion" required>
+            <br>
+            <label for="editar_imagen">Url Imagen:</label>
+            <input type="text" id="editar_imagen_categoria" name="URL_imagen" required>
+            <br>
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Abrir el modal de agregar ítem
+    document.querySelector('.open-add-category-modal').addEventListener('click', function() {
+        document.getElementById('agregarCategoriaModal').style.display = 'block';
+    });
+
+    // Abrir el modal de editar ítem
+    let btnEditarCategoria = document.querySelectorAll('.open-edit-category-modal');
+    btnEditarCategoria.forEach(button => {
+        button.addEventListener('click', function() {
+            let id = this.getAttribute('data-id');
+            let nombre = this.getAttribute('data-nombre');
+            let descripcion = this.getAttribute('data-descripcion');
+            let imagen = this.getAttribute('data-imagen');
+            console.log(id, nombre, descripcion, imagen);
+            // Cargar los valores del producto en los campos del modal
+            document.getElementById('editar_id_categoria').value = id;
+            document.getElementById('editar_nombre_categoria').value = nombre;
+            document.getElementById('editar_descripcion_categoria').value = descripcion;
+            document.getElementById('editar_imagen_categoria').value = imagen;
+
+            // Establecer la acción del formulario de edición
+            document.getElementById('editarFormularioCategoria').action = "editar_categoria/" + id;
+
+            // Mostrar el modal
+            document.getElementById('editarCategoriaModal').style.display = 'block';
+        });
+    });
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.addEventListener('click', function(event) {
+        let modal = document.querySelectorAll('.modal');
+        modal.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>

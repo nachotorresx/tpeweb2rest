@@ -1,0 +1,28 @@
+<?php require 'templates/layout/header.phtml';?>
+
+<div class="items-section">
+    <h2><?= htmlspecialchars($nameCategory) ?></h2>
+        <div class="items-section">
+            <div class="items-container">
+                <?php if (!empty($products)): ?>
+                    <?php foreach($products as $product): ?>
+                        <div class="item-card">
+                            <img src="<?= htmlspecialchars($product->URL_imagen) ?>" alt="<?= htmlspecialchars($product->nombre) ?>">
+                                <div class="item-card-content">
+                                    <h3><?= htmlspecialchars($product->nombre) ?></h3>
+                                    <p>Precio: $<?= htmlspecialchars($product->precio) ?></p>
+
+                                    <div class="admin-button">
+                                        <a href="<?= BASE_URL . 'productos/' . $product->id_producto ?>">Ver Más</a>
+                                    </div>
+                                </div>
+                        </div>
+                    <?php endforeach; ?>
+            </div>
+        </div>
+                <?php else: ?>
+                    <p>No hay productos disponibles en esta categoría.</p>
+                <?php endif; ?>
+</div>
+
+<?php require 'templates/layout/footer.phtml';?>

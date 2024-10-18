@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="css/style.css">
+
+<?php if ($error): ?>
+    <div class='alert alert-danger' role='alert'>
+        <?= $error ?>
+    </div>
+<?php endif ?>
+
+<div class="login-body">
+    <div class="login-container">
+        <h2 class="login-h2">Iniciar Sesión</h2>
+            <form class="login-form" method='POST' action='login'>
+                <label class="login-label" for="email">Usuario:</label>
+                <input class="login-input" type="text" id="email" name="email" required>
+                
+                <label class="login-label" for="password">Contraseña:</label>
+                <input class="login-input" type="password" id="contraseña" name="password" required>
+
+                <button class="login-button" type="submit">Iniciar Sesión</button>
+            </form>
+
+        <button class="login-button" type="input"><a class="login-a" href="<?= BASE_URL . 'home'?>">Volver a Inicio</a></button>
+    </div>
+</div>
+
+<?php require 'templates/layout/footer.phtml';?>

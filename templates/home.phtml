@@ -1,0 +1,31 @@
+<?php require 'layout/header.phtml';?>
+
+<?php $arrCategorys = [];
+foreach ($categorys as $category) {$arrCategorys[$category->id_categoria] = $category->nombre;}?>
+
+<?php if ($user): ?>
+    <?php require 'templates/admin.products.phtml';?>
+    <?php require 'templates/admin.categorys.phtml';?>
+<?php else: ?>
+
+<section class="items-section">
+    <h2>Nuestros Productos</h2>
+        <div class="items-container">
+            <?php foreach($products as $product): ?>
+                <div class="item-card">
+                    <img src="<?= htmlspecialchars($product->URL_imagen) ?>" alt="<?= htmlspecialchars($product->nombre) ?>">
+                    <div class="item-card-content">
+                        <h3><?= htmlspecialchars($product->nombre) ?></h3>
+                        <p class="price">$<?= htmlspecialchars($product->precio) ?></p>
+                        <p class="category">Categoría: <?= htmlspecialchars($arrCategorys[$product->id_categoria]) ?></p>
+                        <div class="admin-button">
+                            <a href="<?= BASE_URL . 'productos/' . $product->id_producto ?>">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+</section>
+<?php endif; ?>
+
+<?php require 'templates/layout/footer.phtml';?>

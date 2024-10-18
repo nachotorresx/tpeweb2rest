@@ -1,0 +1,23 @@
+<?php require 'templates/layout/header.phtml';?>
+
+<section class="items-section">
+    <h2>Nuestras Categorias</h2>
+        <div class="items-container">
+            <?php foreach($categorys as $category): ?>
+
+                <div class="item-card">
+                    <img src="<?= htmlspecialchars($category->URL_imagen) ?>" alt="<?= htmlspecialchars($category->nombre) ?>">
+                    <div class="item-card-content">
+                        <h3><?= htmlspecialchars($category->nombre) ?></h3>
+                        <p class="description"><?= htmlspecialchars($category->descripcion) ?></p>
+
+                        <div class="admin-button">
+                            <a href="<?= BASE_URL . 'categorias/' . urlencode($category->nombre) ?>">Ver Productos</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+</section>
+
+<?php require 'templates/layout/footer.phtml';?>
