@@ -18,8 +18,19 @@ class ProductController {
 
         $products = $this->model->getProducts();
         
-        // mando las tareas a la vista
         return $this->view->response($products);
+    }
+
+    public function getProduct($req, $res) {
+
+        $id = $req->params->id;
+
+        $product = $this->model->getProduct($id);
+        
+        if(!$product) {
+            return $this->view->response("La tarea con el id=$id no existe", 404);
+        }
+        return $this->view->response($product);
     }
     
     public function showProducts() {

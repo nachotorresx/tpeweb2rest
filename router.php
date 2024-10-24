@@ -8,7 +8,7 @@
 
     #                 endpoint                    verbo      controller             metodo
     $router->addRoute('productos'   ,               'GET',     'ProductController',   'getProducts');
-    $router->addRoute('productos/:id'  ,            'GET',     'ProductController',   'get');
+    $router->addRoute('productos/:id'  ,            'GET',     'ProductController',   'getProduct');
     $router->addRoute('productos/:id'  ,            'DELETE',  'ProductController',   'delete');
     $router->addRoute('productos'  ,                'POST',    'ProductController',   'create');
     $router->addRoute('productos/:id'  ,            'PUT',     'ProductController',   'update');
