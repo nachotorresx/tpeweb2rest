@@ -1,18 +1,27 @@
 <?php
 require_once './app/models/product.model.php';
-require_once './app/views/product.view.php';
+
+require_once './app/views/json.view.php';
 
 class ProductController {
     private $model;
     private $view;
     private $modeloCategoria;
 
-    public function __construct($res) {
+    public function __construct() {
         $this->model = new ProductModel();
-        $this->view = new ProductView($res->user);
-        $this->modeloCategoria = new CategoryModel();
+        $this->view = new JSONView();
+        //$this->modeloCategoria = new CategoryModel();
     }
 
+    public function getProducts($req, $res) {
+
+        $products = $this->model->getProducts();
+        
+        // mando las tareas a la vista
+        return $this->view->response($products);
+    }
+    
     public function showProducts() {
         $products = $this->model->getProducts();
         
