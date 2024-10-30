@@ -6,12 +6,10 @@ require_once './app/views/json.view.php';
 class ProductController {
     private $model;
     private $view;
-    private $modeloCategoria;
 
     public function __construct() {
         $this->model = new ProductModel();
         $this->view = new JSONView();
-        //$this->modeloCategoria = new CategoryModel();
     }
 
     public function getProducts($req, $res) {
@@ -32,72 +30,64 @@ class ProductController {
         }
         return $this->view->response($product);
     }
-    
-    public function showProducts() {
-        $products = $this->model->getProducts();
-        
-        $categorys = $this->modeloCategoria->getCategorys();
 
-        return $this->view->showProducts($products, $categorys);
-    }
+    public function addProduct($req, $res) {
 
-    public function showProduct($id){
-        $product = $this->model->getProduct($id);
-        $categorys = $this->modeloCategoria->getCategorys();
-        return $this->view->showProduct($product, $categorys);
-    }
-
-    public function addProduct() {
-        if (!isset($_POST['nombre']) || empty($_POST['nombre'])) {
-            return $this->view->showError('Falta completar el nombre');
-        }
-        if (!isset($_POST['descripcion']) || empty($_POST['descripcion'])) {
-            return $this->view->showError('Falta completar la descripcion');
-        }
-        if (!isset($_POST['precio']) || empty($_POST['precio'])) {
-            return $this->view->showError('Falta completar el precio');
-        }
-        if (!isset($_POST['id_categoria']) || empty($_POST['id_categoria'])) {
-            return $this->view->showError('Falta completar el categoria');
-        }
-        if (!isset($_POST['URL_imagen']) || empty($_POST['URL_imagen'])) {
-            return $this->view->showError('Falta completar la URL de la imagen');
+        if (empty($req->body->nombre) || empty($req->body->descripcion) || empty($req->body->precio) || empty($req->body->id_categoria) || empty($req->body->URL_imagen)) {
+            return $this->view->response('Falta completar datos', 404);
         }
 
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $precio = $_POST['precio'];
-        $categoria = $_POST['id_categoria'];
-        $URL_imagen = $_POST['URL_imagen'];
+        $nombre = $req->body->nombre;
+        $descripcion = $req->body->descripcion;
+        $precio = $req->body->precio;
+        $categoria = $req->body->id_categoria;
+        $URL_imagen = $req->body->URL_imagen;
 
         $id = $this->model->insertProduct($nombre, $descripcion, $precio, $categoria, $URL_imagen);
-        // redirijo al home
-        header('Location: ' . BASE_URL);
+        
+        if (!$id) {
+            return $this->view->response("Error al insertar producto", 500);
+        }
+        $product = $this->model->getProduct($id);
+        return $this->view->response($product, 201);
     }
 
-    public function editProduct($id) {
-        // Verificar si se está realizando una solicitud POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $nombre = $_POST['nombre'];
-            $descripcion = $_POST['descripcion'];
-            $precio = $_POST['precio'];
-            $URL_imagen = $_POST['URL_imagen'];
-            // Validar los datos según sea necesario
-            if ($this->model->updateProduct($nombre, $descripcion, $precio, $URL_imagen, $id)) {
-                header('Location: ' . BASE_URL); // Redirigir después de la edición
-            } else {
-                return $this->view->showError("No se pudo actualizar el producto.");
-            }
-        } 
-    }
+    public function editProduct($req, $res) {
+        $id = $req->params->id;
 
-    public function deleteProduct($id) {
+        // verifico que exista
         $product = $this->model->getProduct($id);
         if (!$product) {
-            return $this->view->showError("No existe el producto con el id=$id");
+            return $this->view->response("El producto con el id=$id no existe", 404);
+        }
+        if (empty($req->body->nombre) || empty($req->body->descripcion) || empty($req->body->precio) 
+            || empty($req->body->id_categoria) || empty($req->body->URL_imagen)) {
+            return $this->view->response('Falta completar datos', 404);
+        }
+
+        $nombre = $req->body->nombre;
+        $descripcion = $req->body->descripcion;
+        $precio = $req->body->precio;
+        $categoria = $req->body->id_categoria;
+        $URL_imagen = $req->body->URL_imagen;
+
+        $this->model->updateProduct($id, $nombre, $descripcion, $precio, $categoria, $URL_imagen);
+        $product = $this->model->getProduct($id);
+        return $this->view->response($product, 201);
+    }
+
+    public function deleteProduct($req, $res) {
+
+        $id = $req->params->id;
+
+        $product = $this->model->getProduct($id);
+
+        if (!$product) {
+            return $this->view->response("No existe el producto con el id=$id", 404);
         }
         $this->model->eraseProduct($id);
-        header('Location: ' . BASE_URL);
+        $this->view->response("La tarea con el id=$id se eliminó con éxito", 200);
+        //header('Location: ' . BASE_URL);
     }
 }
 
