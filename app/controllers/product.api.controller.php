@@ -1,6 +1,6 @@
 <?php
 require_once './app/models/product.model.php';
-
+require_once './libs/jwt.php';
 require_once './app/views/json.view.php';
 
 class ProductController {
