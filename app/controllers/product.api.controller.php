@@ -14,7 +14,29 @@ class ProductController {
 
     public function getProducts($req, $res) {
 
-        $products = $this->model->getProducts();
+        $orderBy = false;
+        $direccion = null;
+        if (isset($req->query->orderBy)) {
+            $orderBy = $req->query->orderBy;
+            if (isset($req->query->direccion))
+                $direccion = $req->query->direccion;
+        }
+        //Paginacion
+        $pagina = false;
+        $limite = false;
+        if (isset($req->query->pagina) && is_numeric($req->query->pagina) && isset($req->query->limite) && is_numeric($req->query->limite)) {
+            $pagina = $req->query->pagina;
+            $limite = $req->query->limite;
+        }
+        //filtros 
+        $filtro = false;
+        $valor = false;
+        if ((isset($req->query->filtro)) && (isset($req->query->valor))) {
+            $filtro = $req->query->filtro;
+            $valor = $req->query->valor;
+        }
+
+        $products = $this->model->getProducts($orderBy, $direccion, $pagina, $limite, $filtro, $valor);
         
         return $this->view->response($products);
     }
@@ -86,7 +108,7 @@ class ProductController {
             return $this->view->response("No existe el producto con el id=$id", 404);
         }
         $this->model->eraseProduct($id);
-        $this->view->response("La tarea con el id=$id se eliminó con éxito", 200);
+        $this->view->response("El producto con el id=$id se elimino con exito", 200);
         //header('Location: ' . BASE_URL);
     }
 }

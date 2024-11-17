@@ -42,16 +42,4 @@
             ));
             return $this->view->response($token);
         }
-
-        public function getTest($req, $res) {
-
-            $auth_header = $_SERVER['HTTP_AUTHORIZATION']; // "Basic dXN1YXJpbw=="
-            $auth_header = explode(' ', $auth_header); // ["Basic", "dXN1YXJpbw=="]
-            
-            $token=($auth_header[1]);
-            
-            if(!validateJWT($token))
-                $this->view->response("no anda");
-            return $this->view->response("anda");
-        }
     }
