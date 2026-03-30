@@ -1,12 +1,6 @@
 <<<<<<< HEAD
 # SistemaNt App
 
-Integrantes:
-
-•	Lucas Piscicelli.
-
-•	Ignacio Torres.
-
 ![Diagrama DB](https://github.com/nachotorresx/tpeweb2/blob/main/DiagramaDB.PNG?raw=true)
 
 
